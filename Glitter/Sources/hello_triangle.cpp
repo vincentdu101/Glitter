@@ -109,11 +109,16 @@ int main(int argc, char * argv[]) {
     //  -0.5f, -0.5f,  // Bottom Left
     //  -0.5f,  0.5f   // Top Left
     //};
+    // GLfloat vertices[] = {
+    //     0.5f, 0.5f, 0.0f,   // top right
+    //     0.5f, -0.5f, 0.0f,  // bottom right
+    //     -0.5f, -0.5f, 0.0f, // bottom left
+    //     -0.5f, 0.5f, 0.0f,  // top left
+    // };
     GLfloat vertices[] = {
-        0.5f, 0.5f, 0.0f,   // top right
-        0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f, // bottom left
-        -0.5f, 0.5f, 0.0f,  // top left
+        -0.5f, -0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        0.0f,  0.5f, 0.0f
     };
 
     GLuint indices[] = { 
@@ -163,8 +168,8 @@ int main(int argc, char * argv[]) {
         // draw our first triangle
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        // glDrawArrays(GL_TRIANGLES, 0, 6);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
         // Flip Buffers and Draw
