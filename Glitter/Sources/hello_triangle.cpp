@@ -25,9 +25,10 @@ const GLchar* vertexShaderSource = "#version 330 core\n"
     "}\0";
 const GLchar* fragmentShaderSource = "#version 330 core\n"
     "out vec4 color;\n"
+    "uniform vec4 ourColor;\n"
     "void main()\n"
     "{\n"
-    "color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+    "color = ourColor;\n"
     "}\n\0";
 
 // main function where we start app and run the game loop
@@ -116,9 +117,10 @@ int main(int argc, char * argv[]) {
     //     -0.5f, 0.5f, 0.0f,  // top left
     // };
     GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f,  0.5f, 0.0f
+        // positions        colors
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,   // bottom right
+        0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+        0.0f,  0.5f, 0.0f   0.0f, 0.0f, 1.0f    // top
     };
 
     GLuint indices[] = { 
@@ -167,6 +169,13 @@ int main(int argc, char * argv[]) {
 
         // draw our first triangle
         glUseProgram(shaderProgram);
+
+        // update the uniform color
+        GLfloat timeValue = glfwGetTime();
+        GLfloat greenValue = (sin(timeValue) / 2) + 0.5;
+        GLint vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+        glUniform4f (vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
         // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
