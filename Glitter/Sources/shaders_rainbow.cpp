@@ -10,9 +10,6 @@
 #include <cstdio>
 #include <cstdlib>
 
-// other includes
-#include "shader.h"
-
 // function prototypes
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
@@ -168,9 +165,6 @@ int main(int argc, char * argv[]) {
 
     // uncommenting this call will result in wireframe polygons
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    
-    // build and compile our shader program
-    Shader ourShader("default.vs", "default.frag");
 
     // Rendering Loop
     while (glfwWindowShouldClose(mWindow) == false) {
@@ -182,9 +176,16 @@ int main(int argc, char * argv[]) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         // draw our first triangle
-        ourShader.Use();
+        glUseProgram(shaderProgram);
+
+        // update the uniform color
+        GLfloat timeValue = glfwGetTime();
+        GLfloat greenValue = (sin(timeValue) / 2) + 0.5;
+        GLint vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+        glUniform4f (vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
         // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
